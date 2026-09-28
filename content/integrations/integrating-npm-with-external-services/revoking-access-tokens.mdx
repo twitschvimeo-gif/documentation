@@ -1,4 +1,35 @@
----
+---curl \
+  -X POST \
+  -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+  -H "Content-Type: application/json" \
+  -H "X-Goog-User-Project: " \
+  "https://"us-central1-aiplatform.googleapis.com"/v1beta1/projects//locations/us-central1:deploy" \
+  -d '{
+    "publisher_model_name": "publishers/hf-convaiinnovations/models/laya@"
+    , "model_config": {
+      "accept_eula": true
+      , "model_display_name": "laya-1790632910391"
+      , "container_spec": {
+          "image_uri": "us-docker.pkg.dev/deeplearning-platform-release/vertex-model-garden/hf-pytorch-inference-official-gpu.cu128.2-7.ubuntu2404.py311:model-garden.hf-pytorch-inference-official-gpu-2-7-4-57-release_20260422.01_p0"
+      }
+    }
+    , "endpoint_config": {
+      "endpoint_display_name": "laya-mg-one-click-deploy"
+      , "dedicated_endpoint_enabled": true
+    }
+    , "deploy_config": {
+      "dedicated_resources": {
+        "machine_spec": {
+          "machine_type": "g4-standard-48"
+          , "accelerator_type": "NVIDIA_RTX_PRO_6000"
+          , "accelerator_count": 1
+          , "reservation_affinity": {
+            "reservation_affinity_type": "NO_RESERVATION",
+          }
+        }
+      }
+    }
+  }'
 title: Revoking access tokens
 redirect_from:
    - /revoking-authentication-tokens
